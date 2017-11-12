@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.oleg.romanyuta.api.service.AuthorService;
 import ua.oleg.romanyuta.domain.Author;
+import ua.oleg.romanyuta.domain.AuthorShortInfo;
 
 
 import java.util.List;
@@ -32,6 +33,13 @@ public class AuthorController {
         List<Author> authors = authorService.getAllAuthors();
 
         return new ResponseEntity<>(authors, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/info/short/{id}", method = RequestMethod.GET)
+    public ResponseEntity<AuthorShortInfo> getAuthorShortInfo(@PathVariable("id") Long id) {
+        AuthorShortInfo authorShortInfo = authorService.getAuthorShortInfo(id);
+
+        return new ResponseEntity<>(authorShortInfo, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

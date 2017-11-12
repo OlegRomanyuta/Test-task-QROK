@@ -1,13 +1,18 @@
 package ua.oleg.romanyuta.api.service;
 
 import com.google.common.collect.Lists;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.oleg.romanyuta.dao.AuthorRepository;
 import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.api.exception.BadRequestException;
 import ua.oleg.romanyuta.api.exception.NotFoundException;
+import ua.oleg.romanyuta.domain.AuthorShortInfo;
+import ua.oleg.romanyuta.domain.Book;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,5 +59,50 @@ public class JpaAuthorService implements AuthorService {
         authorRepository.save(author);
 
         return author;
+    }
+
+    @Override
+    public AuthorShortInfo getAuthorShortInfo(Long id) {
+        Author author = getAuthor(id);
+
+        return createAuthorShortInfo(author);
+    }
+
+    private AuthorShortInfo createAuthorShortInfo(Author author) {
+        AuthorShortInfo result = new AuthorShortInfo();
+        result.setFirstName(author.getFirstName());
+        result.setLastName(author.getLastName());
+
+        List<String> bookTitles = getBookTitles(author.getBooks());
+        result.setBookTitles(bookTitles);
+
+        Integer age = calculateAge(author.getBirthDate());
+        result.setAge(age);
+
+        return result;
+    }
+
+    private List<String> getBookTitles(List<Book> books) {
+        List<String> result = new ArrayList<>();
+        if (books != null) {
+            for (Book book : books) {
+                if (book != null && book.getTitle() != null) {
+                    result.add(book.getTitle());
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private Integer calculateAge(Date birth) {
+        if (birth == null) {
+            return null;
+        }
+
+        DateTime birthDate = new DateTime(birth);
+        DateTime currentDate = new DateTime();
+
+        return currentDate.minusYears(birthDate.getYear()).getYear();
     }
 }

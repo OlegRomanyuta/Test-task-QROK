@@ -1,9 +1,5 @@
 package ua.oleg.romanyuta.domain;
 
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,21 +13,7 @@ public class AuthorShortInfo {
 
     private Integer age;
 
-    private List<String> bookNames;
-
-    public static AuthorShortInfo fromAuthor(Author author) {
-        AuthorShortInfo result = new AuthorShortInfo();
-        result.setFirstName(author.getFirstName());
-        result.setLastName(author.getLastName());
-
-        List<String> bookTitles = getBookTitles(author.getBooks());
-        result.setBookNames(bookTitles);
-
-        Integer age = calculateAge(author.getBirthDate());
-        result.setAge(age);
-
-        return result;
-    }
+    private List<String> bookTitles;
 
     public String getFirstName() {
         return firstName;
@@ -57,12 +39,12 @@ public class AuthorShortInfo {
         this.age = age;
     }
 
-    public List<String> getBookNames() {
-        return bookNames;
+    public List<String> getBookTitles() {
+        return bookTitles;
     }
 
-    public void setBookNames(List<String> bookNames) {
-        this.bookNames = bookNames;
+    public void setBookTitles(List<String> bookTitles) {
+        this.bookTitles = bookTitles;
     }
 
     @Override
@@ -75,7 +57,7 @@ public class AuthorShortInfo {
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         if (age != null ? !age.equals(that.age) : that.age != null) return false;
-        return bookNames != null ? bookNames.equals(that.bookNames) : that.bookNames == null;
+        return bookTitles != null ? bookTitles.equals(that.bookTitles) : that.bookTitles == null;
     }
 
     @Override
@@ -83,31 +65,7 @@ public class AuthorShortInfo {
         int result = firstName != null ? firstName.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (bookNames != null ? bookNames.hashCode() : 0);
+        result = 31 * result + (bookTitles != null ? bookTitles.hashCode() : 0);
         return result;
-    }
-
-    private static List<String> getBookTitles(List<Book> books) {
-        List<String> result = new ArrayList<>();
-        if (books != null) {
-            for (Book book : books) {
-                if (book != null && book.getTitle() != null) {
-                    result.add(book.getTitle());
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private static Integer calculateAge(Date birth) {
-        if (birth == null) {
-            return null;
-        }
-
-        DateTime birthDate = new DateTime(birth);
-        DateTime currentDate = new DateTime();
-
-        return currentDate.minusYears(birthDate.getYear()).getYear();
     }
 }
