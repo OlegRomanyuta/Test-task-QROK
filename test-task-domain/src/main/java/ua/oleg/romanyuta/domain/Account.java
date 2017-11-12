@@ -11,10 +11,6 @@ public class Account extends DomainObject {
     @Column
     private String password;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     public Account(){}
 
     public Account(String username, String password) {
@@ -38,14 +34,6 @@ public class Account extends DomainObject {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,15 +42,13 @@ public class Account extends DomainObject {
         Account account = (Account) o;
 
         if (username != null ? !username.equals(account.username) : account.username != null) return false;
-        if (password != null ? !password.equals(account.password) : account.password != null) return false;
-        return role == account.role;
+        return password != null ? password.equals(account.password) : account.password == null;
     }
 
     @Override
     public int hashCode() {
         int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }
