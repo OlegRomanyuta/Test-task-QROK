@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.oleg.romanyuta.dao.AuthorRepository;
+import ua.oleg.romanyuta.dao.BookRepository;
 import ua.oleg.romanyuta.dao.RewardRepository;
 import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.api.exception.BadRequestException;
@@ -25,6 +26,9 @@ public class JpaAuthorService implements AuthorService {
 
     @Autowired
     private RewardRepository rewardRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public Author getAuthor(Long id) {
@@ -74,6 +78,50 @@ public class JpaAuthorService implements AuthorService {
         Author author = getAuthor(id);
 
         return createAuthorShortInfo(author);
+    }
+
+    @Override
+    public Author addBooksToAuthor(Long authorId, List<Long> bookIds) {
+        Author author = authorRepository.findOne(authorId);
+        if (author == null) {
+            throw new NotFoundException(String.format("Author with id %s does not exist", authorId));
+        }
+
+        return saveBooksToAuthor(author, bookIds);
+    }
+
+    private Author saveBooksToAuthor(Author author, List<Long> bookIds) {
+        List<Book> booksToSave = saveAuthorToBooks(author, bookIds);
+
+        List<Book> authorBooks = author.getBooks();
+        if (authorBooks != null) {
+            authorBooks.addAll(booksToSave);
+        } else {
+            authorBooks = booksToSave;
+        }
+        author.setBooks(authorBooks);
+
+        return authorRepository.save(author);
+    }
+
+    private List<Book> saveAuthorToBooks(Author author, List<Long> bookIds) {
+        List<Book> books = new ArrayList<>();
+        for (Long bookId : bookIds) {
+            if (bookId == null) {
+                throw new BadRequestException("Must provide id for book");
+            } else {
+                Book book = bookRepository.findOne(bookId);
+                if (book == null) {
+                    throw new BadRequestException("Book must exist when adding it to Author");
+                }
+
+                book.getAuthors().add(author);
+                bookRepository.save(book);
+                books.add(book);
+            }
+        }
+
+        return books;
     }
 
     private AuthorShortInfo createAuthorShortInfo(Author author) {
