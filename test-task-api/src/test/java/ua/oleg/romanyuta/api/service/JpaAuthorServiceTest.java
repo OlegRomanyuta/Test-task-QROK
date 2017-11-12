@@ -30,12 +30,13 @@ public class JpaAuthorServiceTest {
     @Test
     public void getAuthor_GetsAuthorFromRepositoryById() throws Exception {
         Long id = 1l;
-        Author expectedResult = createAuthorWithSomeId();
-        when(authorRepository.findOne(id)).thenReturn(expectedResult);
+        Author authorToReturn = createAuthorWithSomeId();
+        when(authorRepository.findOne(id)).thenReturn(authorToReturn);
 
         Author actualResult = testee.getAuthor(id);
 
         verify(authorRepository).findOne(1l);
+        Author expectedResult = createAuthorWithSomeId();
         assertEquals(expectedResult, actualResult);
     }
 
@@ -49,13 +50,15 @@ public class JpaAuthorServiceTest {
 
     @Test
     public void getAllAuthors_ReturnsAllAuthorsFromRepository() throws Exception {
-        List<Author> expectedResult = Arrays.asList(createAuthorWithSomeId());
-        when(authorRepository.findAll()).thenReturn(expectedResult);
+        List<Author> authorsToReturn = Arrays.asList(createAuthorWithSomeId());
+        when(authorRepository.findAll()).thenReturn(authorsToReturn);
 
         List<Author> actualResult = testee.getAllAuthors();
 
         verify(authorRepository).findAll();
-        assertEquals(expectedResult, actualResult);
+        assertTrue(actualResult.size() == 1);
+        Author expectedResult = createAuthorWithSomeId();
+        assertEquals(expectedResult, actualResult.get(0));
     }
 
     @Test
@@ -63,10 +66,9 @@ public class JpaAuthorServiceTest {
         Author authorToCreate = createAuthorWithoutId();
         when(authorRepository.save(authorToCreate)).thenReturn(authorToCreate);
 
-        Author actualResult = testee.createAuthor(authorToCreate);
+        testee.createAuthor(authorToCreate);
 
         verify(authorRepository).save(authorToCreate);
-        assertEquals(authorToCreate, actualResult);
     }
 
     @Test(expected = BadRequestException.class)
@@ -90,7 +92,9 @@ public class JpaAuthorServiceTest {
 
         verify(authorRepository).findOne(id);
         verify(authorRepository).save(updatingAuthor);
-        assertEquals(updatingAuthor, actualResult);
+        Author expectedResult = createAuthorWithId(id);
+        expectedResult.setFirstName("OtherName");
+        assertEquals(expectedResult, actualResult);
     }
 
     @Test(expected = BadRequestException.class)
