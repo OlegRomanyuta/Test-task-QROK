@@ -44,4 +44,24 @@ public class Reward extends DomainObject {
     public void setAuthor(Author author) {
         this.author = author;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Reward reward = (Reward) o;
+
+        if (year != null ? !year.equals(reward.year) : reward.year != null) return false;
+        if (title != null ? !title.equals(reward.title) : reward.title != null) return false;
+        return author != null ? author.equals(reward.author) : reward.author == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = year != null ? year.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        return result;
+    }
 }

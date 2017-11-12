@@ -59,4 +59,26 @@ public class Book extends DomainObject {
     public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        if (title != null ? !title.equals(book.title) : book.title != null) return false;
+        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
+        if (genre != book.genre) return false;
+        return authors != null ? authors.equals(book.authors) : book.authors == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
+        result = 31 * result + (authors != null ? authors.hashCode() : 0);
+        return result;
+    }
 }
