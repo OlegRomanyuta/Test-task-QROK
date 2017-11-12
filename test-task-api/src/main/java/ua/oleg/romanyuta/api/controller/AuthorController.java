@@ -1,17 +1,13 @@
 package ua.oleg.romanyuta.api.controller;
 
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.oleg.romanyuta.api.service.AuthorService;
-import ua.oleg.romanyuta.dao.AuthorRepository;
 import ua.oleg.romanyuta.domain.Author;
-import ua.oleg.romanyuta.domain.exception.BadRequestException;
-import ua.oleg.romanyuta.domain.exception.NotFoundException;
 
 
 import java.util.List;
