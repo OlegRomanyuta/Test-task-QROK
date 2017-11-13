@@ -3,6 +3,7 @@ package ua.oleg.romanyuta.api.service;
 import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.domain.AuthorShortInfo;
 
+
 import java.util.List;
 
 public interface AuthorService {
@@ -16,4 +17,6 @@ public interface AuthorService {
     Author updateAuthor(Author author);
 
     AuthorShortInfo getAuthorShortInfo(Long id);
+
+    Author addBooksToAuthor(Long authorId, List<Long> bookIds);
 }

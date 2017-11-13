@@ -11,6 +11,7 @@ import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.domain.AuthorShortInfo;
 
 
+
 import java.util.List;
 
 @RestController
@@ -44,14 +45,21 @@ public class AuthorController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
-        authorService.createAuthor(author);
+        author = authorService.createAuthor(author);
 
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Author> updateAuthor(@RequestBody Author author) {
-        authorService.updateAuthor(author);
+        author = authorService.updateAuthor(author);
+
+        return new ResponseEntity<>(author, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{authorId}/addBooks", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Author> addBooksToAuthor(@PathVariable("authorId") Long authorId, @RequestBody List<Long> bookIds) {
+        Author author = authorService.addBooksToAuthor(authorId, bookIds);
 
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
