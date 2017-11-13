@@ -2,9 +2,7 @@ package ua.oleg.romanyuta.domain;
 
 import java.util.List;
 
-/**
- * Created by Admin on 12.11.2017.
- */
+
 public class AuthorShortInfo {
 
     private String firstName;
