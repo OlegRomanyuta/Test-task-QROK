@@ -37,6 +37,7 @@ Postman: POST localhost:8080/authors/
   }  
 cURL:curl -X POST \
        http://localhost:8080/authors/ \
+       -H 'authorization: Basic YWRtaW46YWRtaW4=' \
        -H 'cache-control: no-cache' \
        -H 'content-type: application/json' \
        -H 'postman-token: 97da1959-9762-999e-fa41-6928e7c849af' \
@@ -59,7 +60,22 @@ Postman: PUT localhost:8080/authors/
         "birthDate": "1966-11-11",
         "books": [],
         "rewards": []
- } 
+ }
+cURL:curl -X PUT \
+       http://localhost:8080/authors/ \
+       -H 'authorization: Basic YWRtaW46YWRtaW4=' \
+       -H 'cache-control: no-cache' \
+       -H 'content-type: application/json' \
+       -H 'postman-token: 1b9b7702-c385-6fc0-c46f-b376f3a554f6' \
+       -d ' {
+             "lastName": "Carter",
+             "id": 1,
+             "firstName": "John",
+             "sex": "male",
+             "birthDate": "1966-11-11",
+             "books": [],
+             "rewards": []
+         }'  
   
                     
                     
