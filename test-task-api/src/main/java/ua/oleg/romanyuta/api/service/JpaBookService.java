@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class JpaBookService implements BookService {
 
-    @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    public JpaBookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Override
     public Book getBook(Long id) {

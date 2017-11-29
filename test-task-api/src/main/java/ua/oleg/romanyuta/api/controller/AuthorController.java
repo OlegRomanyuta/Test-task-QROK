@@ -18,8 +18,12 @@ import java.util.List;
 @RequestMapping("/authors")
 public class AuthorController {
 
-    @Autowired
     private AuthorService authorService;
+
+    @Autowired
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)

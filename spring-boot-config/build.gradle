@@ -2,5 +2,5 @@
 description = ''
 dependencies {
   compile project(':test-task-api')
-  compile project(':test-task-db')
+  compile project(':test-task-dataaccess')
 }

@@ -1,13 +1,15 @@
 package ua.oleg.romanyuta.api.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import ua.oleg.romanyuta.api.exception.BadRequestException;
 import ua.oleg.romanyuta.api.exception.NotFoundException;
 import ua.oleg.romanyuta.dao.AuthorRepository;
+import ua.oleg.romanyuta.dao.BookRepository;
+import ua.oleg.romanyuta.dao.RewardRepository;
 import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.domain.Sex;
 
@@ -23,9 +25,17 @@ public class JpaAuthorServiceTest {
 
     @Mock
     AuthorRepository authorRepository;
+    @Mock
+    RewardRepository rewardRepository;
+    @Mock
+    BookRepository bookRepository;
 
-    @InjectMocks
-    AuthorService testee = new JpaAuthorService();
+    AuthorService testee;
+
+    @Before
+    public void setUp() {
+        testee = new JpaAuthorService(authorRepository, rewardRepository, bookRepository);
+    }
 
     @Test
     public void getAuthor_GetsAuthorFromRepositoryById() throws Exception {

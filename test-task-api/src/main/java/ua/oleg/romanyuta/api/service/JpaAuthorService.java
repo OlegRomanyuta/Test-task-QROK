@@ -21,14 +21,19 @@ import java.util.List;
 @Service
 public class JpaAuthorService implements AuthorService {
 
-    @Autowired
+
     private AuthorRepository authorRepository;
 
-    @Autowired
     private RewardRepository rewardRepository;
 
-    @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    public JpaAuthorService(AuthorRepository authorRepository, RewardRepository rewardRepository, BookRepository bookRepository) {
+        this.authorRepository = authorRepository;
+        this.rewardRepository = rewardRepository;
+        this.bookRepository = bookRepository;
+    }
 
     @Override
     public Author getAuthor(Long id) {
