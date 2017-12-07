@@ -61,10 +61,4 @@ public class AuthorController {
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{authorId}/addBooks", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Author> addBooksToAuthor(@PathVariable("authorId") Long authorId, @RequestBody List<Long> bookIds) {
-        Author author = authorService.addBooksToAuthor(authorId, bookIds);
-
-        return new ResponseEntity<>(author, HttpStatus.OK);
-    }
 }

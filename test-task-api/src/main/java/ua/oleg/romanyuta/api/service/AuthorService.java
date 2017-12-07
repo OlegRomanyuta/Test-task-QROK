@@ -18,5 +18,4 @@ public interface AuthorService {
 
     AuthorShortInfo getAuthorShortInfo(Long id);
 
-    Author addBooksToAuthor(Long authorId, List<Long> bookIds);
 }
