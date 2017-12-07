@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.oleg.romanyuta.api.service.AuthorService;
+import ua.oleg.romanyuta.api.service.BookService;
 import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.domain.AuthorShortInfo;
 
@@ -61,4 +62,10 @@ public class AuthorController {
         return new ResponseEntity<>(author, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{authorId}/addBooks", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Author> addBooksToAuthor(@PathVariable("authorId") Long authorId, @RequestBody List<Long> bookIds) {
+        Author author = authorService.addBooksToAuthor(authorId, bookIds);
+
+        return new ResponseEntity<>(author, HttpStatus.OK);
+    }
 }

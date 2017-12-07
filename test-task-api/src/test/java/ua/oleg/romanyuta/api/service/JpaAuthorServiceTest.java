@@ -8,7 +8,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ua.oleg.romanyuta.api.exception.BadRequestException;
 import ua.oleg.romanyuta.api.exception.NotFoundException;
 import ua.oleg.romanyuta.dao.AuthorRepository;
-
+import ua.oleg.romanyuta.dao.BookRepository;
+import ua.oleg.romanyuta.dao.RewardRepository;
 import ua.oleg.romanyuta.domain.Author;
 import ua.oleg.romanyuta.domain.Sex;
 
@@ -24,12 +25,16 @@ public class JpaAuthorServiceTest {
 
     @Mock
     AuthorRepository authorRepository;
+    @Mock
+    RewardRepository rewardRepository;
+    @Mock
+    BookRepository bookRepository;
 
     AuthorService testee;
 
     @Before
     public void setUp() {
-        testee = new JpaAuthorService(authorRepository);
+        testee = new JpaAuthorService(authorRepository, bookRepository, rewardRepository);
     }
 
     @Test
